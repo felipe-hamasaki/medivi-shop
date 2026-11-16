@@ -20,7 +20,7 @@ export function CatalogSort({
   const isSearching = !!searchParams.q;
 
   return (
-    <form method="GET" action={basePath} className="flex items-center justify-end gap-2">
+    <form method="GET" action={basePath} className="flex max-w-full flex-wrap items-center gap-2">
       {searchParams.minPrice && <input type="hidden" name="minPrice" value={searchParams.minPrice} />}
       {searchParams.maxPrice && <input type="hidden" name="maxPrice" value={searchParams.maxPrice} />}
       {searchParams.material && <input type="hidden" name="material" value={searchParams.material} />}

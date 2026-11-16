@@ -5,7 +5,7 @@ import { carriageOptions, readCheckout } from "@/lib/checkout";
 import { findRecord, findVariant } from "@/lib/catalog";
 import { useDemo } from "./demo-provider";
 import { useI18n } from "./locale-provider";
-import { Heading, Mark, ProductFrame, Rivets } from "./armory";
+import { Heading, Mark, ProductFrame } from "./armory";
 export function CartEmpty() {
   const { copy } = useI18n();
   return (
@@ -63,7 +63,6 @@ export function CartView() {
       ) : (
         <>
           <section className="parchment manifest">
-            <Rivets />
             <div className="manifest-head">
               <h2>
                 <Mark name="scroll" tone="ink" size={26} />

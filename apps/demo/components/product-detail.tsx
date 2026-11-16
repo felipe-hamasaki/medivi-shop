@@ -174,7 +174,7 @@ function ArtifactDetail({
             <p className="stock-line">
               {stock} {copy.stockLine}
             </p>
-            <DemoNotice compact />
+            <DemoNotice />
           </div>
         </div>
       </div>

@@ -32,18 +32,10 @@
   .language-select-content[data-state] { animation: none; }
 }
 
-/*
- * Medivi Shop theme — "Parchment" (light) / "Torch-lit" (dark).
- * Every text-on-fill pair below was checked against WCAG 2.2 AA (4.5:1)
- * with an OKLCH -> linear-sRGB -> relative-luminance calculation, not
- * eyeballed — see docs/plan.md §2 for the palette rationale.
- */
-
 :root {
-  --radius: 0.5rem;
-  --font-display: var(--font-cinzel);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --radius: 2px;
+  --serif: var(--font-display-face, Georgia), Georgia, serif;
+  --sans: var(--font-interface, Arial), Arial, sans-serif;
 }
 
 @theme inline {
@@ -70,57 +62,57 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --font-display: var(--font-display);
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-mono);
+  --font-display: var(--serif);
+  --font-sans: var(--sans);
 }
 
-/* Parchment (light) */
 :root {
-  --background: oklch(0.97 0.015 85);
-  --foreground: oklch(0.22 0.02 260);
-  --card: oklch(0.99 0.01 85);
-  --card-foreground: oklch(0.22 0.02 260);
-  --popover: oklch(0.99 0.01 85);
-  --popover-foreground: oklch(0.22 0.02 260);
-  --primary: oklch(0.68 0.12 75);
-  --primary-foreground: oklch(0.2 0.025 260);
-  --secondary: oklch(0.91 0.025 85);
-  --secondary-foreground: oklch(0.27 0.025 260);
-  --muted: oklch(0.93 0.01 85);
-  --muted-foreground: oklch(0.45 0.02 85);
-  --accent: oklch(0.47 0.16 30);
-  --accent-foreground: oklch(0.98 0 0);
-  --destructive: oklch(0.55 0.22 25);
-  --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0.84 0.025 85);
-  --input: oklch(0.84 0.025 85);
-  --ring: oklch(0.64 0.11 75);
+  color-scheme: light;
+  --background: #f4f1e9;
+  --foreground: #272820;
+  --card: #fcfaf4;
+  --card-foreground: var(--foreground);
+  --popover: var(--card);
+  --popover-foreground: var(--foreground);
+  --primary: #73562d;
+  --primary-foreground: #fffaf1;
+  --secondary: #e7e3d7;
+  --secondary-foreground: #36372e;
+  --muted: #eae6db;
+  --muted-foreground: #636357;
+  --accent: #e8dfcc;
+  --accent-foreground: #3b352a;
+  --border: #cbc6b8;
+  --input: #a6a18f;
+  --ring: #80643b;
+  --gold: #74582e;
+  --destructive: #963637;
+  --destructive-foreground: white;
 }
 
-/* Torch-lit (dark) */
 .dark {
-  --background: oklch(0.16 0.015 260);
-  --foreground: oklch(0.94 0.02 85);
-  --card: oklch(0.21 0.02 260);
-  --card-foreground: oklch(0.94 0.02 85);
-  --popover: oklch(0.21 0.02 260);
-  --popover-foreground: oklch(0.94 0.02 85);
-  --primary: oklch(0.78 0.12 75);
-  --primary-foreground: oklch(0.18 0.02 260);
-  --secondary: oklch(0.32 0.03 250);
-  --secondary-foreground: oklch(0.94 0.02 85);
-  --muted: oklch(0.26 0.02 260);
-  --muted-foreground: oklch(0.68 0.02 85);
-  --accent: oklch(0.5 0.2 25);
-  --accent-foreground: oklch(0.98 0 0);
-  --destructive: oklch(0.55 0.2 25);
-  --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(1 0 0 / 12%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.78 0.12 75);
+  color-scheme: dark;
+  --background: #141513;
+  --foreground: #edece5;
+  --card: #1c1d1a;
+  --card-foreground: var(--foreground);
+  --popover: #22231f;
+  --popover-foreground: var(--foreground);
+  --primary: #dfc08b;
+  --primary-foreground: #201c14;
+  --secondary: #252621;
+  --secondary-foreground: #eee9de;
+  --muted: #22231f;
+  --muted-foreground: #b1b0a7;
+  --accent: #343429;
+  --accent-foreground: #efebdf;
+  --border: #393a33;
+  --ring: #d6b77f;
+  --input: #46463e;
+  --gold: #d4b47c;
+  --destructive: #ad3f43;
+  --destructive-foreground: #fff4ef;
 }
-
 @layer base {
   * {
     @apply border-border outline-ring/50;

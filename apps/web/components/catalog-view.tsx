@@ -10,6 +10,8 @@ import {
   type ProductSort,
 } from "@medivi/db/queries";
 import { getSession } from "@/lib/auth-guards";
+import { SearchBar } from "./search-bar";
+import { CatalogControls } from "./catalog-controls";
 import { CategorySidebar } from "./category-sidebar";
 import { CatalogFilters } from "./catalog-filters";
 import { CatalogSort } from "./catalog-sort";
@@ -94,14 +96,17 @@ export async function CatalogView({
   };
 
   return (
-    <div className="mx-auto flex w-full max-w-6xl gap-8 px-4 py-8">
-      <aside className="hidden w-56 shrink-0 flex-col gap-8 md:flex">
+    <div className="armory-shell store-catalog">
+      <CatalogControls>
         <CategorySidebar categories={categories} activeSlug={categorySlug} />
         <CatalogFilters basePath={basePath} searchParams={searchParams} materials={materials} />
-      </aside>
+      </CatalogControls>
       <div className="min-w-0 flex-1">
-        <h1 className="font-display mb-4 text-2xl">{heading}</h1>
-        <div className="mb-4 flex items-center justify-between">
+        <div className="store-catalog-head">
+          <h1 className="font-display mb-4 text-2xl"><LocalizedText text={heading} /></h1>
+          <SearchBar initialQuery={query} />
+        </div>
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <p className="text-sm text-muted-foreground">
             {query ? (
               <>

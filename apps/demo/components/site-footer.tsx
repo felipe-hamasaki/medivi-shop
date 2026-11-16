@@ -1,47 +1,29 @@
 "use client";
 import Link from "next/link";
-import { departments } from "@/lib/catalog";
-import { Mark } from "./armory";
 import { useI18n } from "./locale-provider";
+import { Wordmark } from "./site-header";
+
 export function SiteFooter() {
-  const { copy, language } = useI18n();
+  const { language, copy } = useI18n();
+  const pt = language === "pt";
   return (
     <footer className="site-footer">
-      <div className="armory-shell footer-grid">
-        <div>
-          <Link href="/" className="wordmark-title">
-            Medivi
-          </Link>
-          <span className="house-line">{copy.house}</span>
-          <p>{copy.footerText}</p>
-        </div>
-        <nav aria-label={copy.footerShop}>
-          <div className="eyebrow">{copy.footerShop}</div>
-          <div className="footer-links">
-            {departments.map((dept) => (
-              <Link key={dept.slug} href={`/catalog?department=${dept.slug}`}>
-                {dept[language].name}
-              </Link>
-            ))}
-          </div>
+      <div className="armory-shell footer-row">
+        <Wordmark />
+        <nav aria-label={pt ? "Rodapé" : "Footer"}>
+          <Link href="/catalog">{pt ? "Catálogo" : "Catalogue"}</Link>
+          <Link href="/wishlist">{pt ? "Favoritos" : "Wishlist"}</Link>
+          <Link href="/admin">{copy.adminTitle}</Link>
         </nav>
-        <div>
-          <div className="eyebrow">{copy.footerHouse}</div>
-          <p>{copy.footerHouseText}</p>
-          <div className="guild-line">
-            <Mark name="seal" size={26} />
-            {copy.guildLine}
-          </div>
-          <Link href="/admin" className="text-action caption">
-            <Mark name="coins" tone="bone" size={15} />
-            {copy.adminTitle}
-          </Link>
-        </div>
       </div>
       <div className="armory-shell footer-credit">
+        <span>
+          {pt
+            ? "Loja de demonstração · Compras simuladas"
+            : "Demo shop · Simulated purchases"}
+        </span>
         <a href="/mk/ICONS-LICENSE.txt">
-          {language === "pt" ? "Ícones" : "Icons"}: Lorc, Delapouite, Carl
-          Olsen, Viscious Speed, Lucas · game-icons.net · CC BY 3.0
+          {pt ? "Créditos dos ícones" : "Icon credits"}
         </a>
       </div>
     </footer>

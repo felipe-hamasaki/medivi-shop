@@ -128,6 +128,7 @@ test("quantity is clamped and explicit removal clears the manifest", async ({
     .getByRole("button", { name: "Add to the satchel", exact: true })
     .click();
   await page.getByRole("link", { name: "Cart, 2", exact: true }).click();
+  await expect(page).toHaveURL(/\/cart\/?$/);
   await page.getByRole("button", { name: "Increase quantity" }).click();
   await page.getByRole("button", { name: "Increase quantity" }).click();
   await expect(
@@ -200,7 +201,7 @@ for (const width of [360, 768, 1024, 1440]) {
       "/admin",
     ]) {
       await page.goto(path);
-      await expect(page.locator("h1")).toBeVisible();
+      await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
       await page.evaluate(() => document.fonts.ready);
       expect(
         await page.evaluate(

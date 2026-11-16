@@ -1,5 +1,37 @@
 import Image from "next/image";
+import {
+  Anvil,
+  BadgeCheck,
+  Coins,
+  Feather,
+  Flame,
+  FlaskRound,
+  Gem,
+  LayoutGrid,
+  ScrollText,
+  Shield,
+  Shirt,
+  Sword,
+  Swords,
+} from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
+
+const marks: Record<string, LucideIcon | undefined> = {
+  anvil: Anvil,
+  seal: BadgeCheck,
+  coins: Coins,
+  feather: Feather,
+  flame: Flame,
+  potion: FlaskRound,
+  rune: Gem,
+  knot: LayoutGrid,
+  scroll: ScrollText,
+  shield: Shield,
+  cloak: Shirt,
+  broadsword: Sword,
+  swords: Swords,
+};
 
 export function Mark({
   name,
@@ -10,50 +42,15 @@ export function Mark({
   tone?: "bone" | "bronze" | "ink";
   size?: number;
 }) {
+  const Icon = marks[name] ?? Gem;
   return (
-    <Image
+    <Icon
       className="armory-mark"
-      src={`/mk/${name}-${tone}.svg`}
-      width={size}
-      height={size}
-      alt=""
+      data-tone={tone}
+      size={size}
+      strokeWidth={1.5}
       aria-hidden="true"
     />
-  );
-}
-export function Roman({ value }: { value: number }) {
-  let left = Math.max(0, Math.floor(value));
-  let result = "";
-  for (const [number, letter] of [
-    [1000, "M"],
-    [900, "CM"],
-    [500, "D"],
-    [400, "CD"],
-    [100, "C"],
-    [90, "XC"],
-    [50, "L"],
-    [40, "XL"],
-    [10, "X"],
-    [9, "IX"],
-    [5, "V"],
-    [4, "IV"],
-    [1, "I"],
-  ] as const) {
-    while (left >= number) {
-      result += letter;
-      left -= number;
-    }
-  }
-  return <span aria-hidden="true">{result || "—"}</span>;
-}
-export function Rivets() {
-  return (
-    <span className="rivets" aria-hidden="true">
-      <i />
-      <i />
-      <i />
-      <i />
-    </span>
   );
 }
 export function ProductFrame({
@@ -84,7 +81,6 @@ export function ProductFrame({
           }
         />
       </div>
-      {variant === "hero" || variant === "detail" ? <Rivets /> : null}
       {children}
     </div>
   );

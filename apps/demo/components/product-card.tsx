@@ -1,8 +1,12 @@
 "use client";
+
 import Link from "next/link";
-import { type Product, findRecord, rarityLabels } from "@/lib/catalog";
-import { Mark, ProductFrame, Roman } from "./armory";
+import Image from "next/image";
+import { ArrowUpRight, Heart } from "lucide-react";
+import { categories, type Product, findRecord } from "@/lib/catalog";
+import { useDemo } from "./demo-provider";
 import { useI18n } from "./locale-provider";
+
 export function ProductCard({
   product,
   simple = false,
@@ -10,70 +14,42 @@ export function ProductCard({
   product: Product;
   simple?: boolean;
 }) {
-  const { copy, language, tr, formatMoney } = useI18n();
-  const record = findRecord(product.slug);
-  const info = record?.[language];
+  const { language, tr, formatMoney, copy } = useI18n();
+  const { state, hydrated, toggleWishlist } = useDemo();
+  const name = findRecord(product.slug)?.[language].name ?? tr(product.name);
+  const category = categories.find((item) => item.slug === product.category);
+  const saved = state.wishlist.includes(product.slug);
   return (
     <article className="ware-card">
-      <Link
-        href={`/product/${product.slug}`}
-        aria-label={info?.name ?? tr(product.name)}
-      >
-        <ProductFrame src={product.image} alt={info?.name ?? tr(product.name)}>
-          {!simple && (
-            <>
-              <span className="iron-spine" aria-hidden="true" />
-              {record && (
-                <span
-                  className="wax-seal"
-                  aria-label={rarityLabels[language][record.rar]}
-                >
-                  <Roman value={record.rar} />
-                </span>
-              )}
-            </>
-          )}
-        </ProductFrame>
+      <Link href={`/product/${product.slug}`} aria-label={name}>
+        <div className="card-photo">
+          <Image
+            src={product.image}
+            alt=""
+            fill
+            sizes="(max-width: 700px) 50vw, (max-width: 1000px) 32vw, 25vw"
+          />
+        </div>
         <div className="ware-body">
-          {!simple && record && (
-            <p className="eyebrow">{rarityLabels[language][record.rar]}</p>
-          )}
-          <h3>{info?.name ?? tr(product.name)}</h3>
-          {!simple && (
-            <>
-              <p className="ware-description">
-                {info?.description ?? tr(product.description)}
-              </p>
-              <div className="artifact-marks">
-                <span>
-                  <Mark name="anvil" tone="bone" size={16} />
-                  {info?.material ?? tr(product.material)}
-                </span>
-                {info && (
-                  <>
-                    <span>
-                      <Mark name="scroll" tone="bone" size={16} />
-                      {info.origin}
-                    </span>
-                    <span>
-                      <Mark name="flame" tone="bone" size={16} />
-                      {info.era}
-                    </span>
-                  </>
-                )}
-              </div>
-            </>
-          )}
+          {category && <p className="card-category">{tr(category.name)}</p>}
+          <h3>{name}</h3>
           <div className="ware-bottom">
-            <span className="ware-price">
-              {formatMoney(product.priceCents)}
-            </span>
-            {!simple && (
-              <span className="ware-link">{copy.viewArtifact} →</span>
-            )}
+            <span>{formatMoney(product.priceCents)}</span>
+            <ArrowUpRight size={16} />
           </div>
         </div>
       </Link>
+      {!simple && (
+        <button
+          className="card-favorite"
+          aria-pressed={saved}
+          disabled={!hydrated}
+          aria-label={`${saved ? copy.stopWatching : copy.watch} · ${name}`}
+          onClick={() => toggleWishlist(product.slug)}
+        >
+          <Heart size={17} fill={saved ? "currentColor" : "none"} />
+        </button>
+      )}
     </article>
   );
 }

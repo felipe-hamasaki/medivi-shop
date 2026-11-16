@@ -43,6 +43,7 @@ export function SearchBar({ initialQuery = "" }: { initialQuery?: string }) {
   return (
     <form role="search" method="GET" action="/search" onSubmit={handleSubmit} className="relative w-full max-w-sm">
       <Input
+        id="shop-query"
         type="search"
         name="q"
         value={value}

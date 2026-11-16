@@ -1,7 +1,8 @@
 "use client";
 
-import { LocalizedText } from "@/components/localized-text";
-
+import Link from "next/link";
+import { HouseMark } from "@medivi/ui/components/house-mark";
+import "./globals.css";
 
 import { useEffect } from "react";
 import { captureException } from "@/lib/monitoring";
@@ -23,11 +24,16 @@ export default function GlobalError({
   }, [error]);
 
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <body>
-        <div style={{ padding: "4rem", textAlign: "center" }}>
-          <h1><LocalizedText text={"Something went wrong"} /></h1>
-          <button onClick={() => reset()}><LocalizedText text={"Try again"} /></button>
+        <div className="store-error">
+          <Link href="/" className="wordmark">
+            <HouseMark />
+          </Link>
+          <h1>Something went wrong</h1>
+          <button className="forged" onClick={() => reset()}>
+            Try again
+          </button>
         </div>
       </body>
     </html>

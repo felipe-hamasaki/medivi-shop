@@ -33,7 +33,6 @@ export function HeroCarousel({ banners }: { banners: ActiveBanner[] }) {
     >
       <div className="relative aspect-[16/7] w-full min-h-64">
         <Image
-          key={current.id}
           src={current.imageUrl}
           alt=""
           fill
@@ -42,7 +41,7 @@ export function HeroCarousel({ banners }: { banners: ActiveBanner[] }) {
           className="store-hero-image object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-        <div key={current.id} className="store-hero-content absolute inset-0 flex flex-col items-start justify-end gap-3 p-6 sm:p-10">
+        <div className="store-hero-content absolute inset-0 flex flex-col items-start justify-end gap-3 p-6 sm:p-10">
           <h2 className="font-display max-w-xl text-3xl text-white sm:text-4xl">{current.title}</h2>
           {current.subtitle && <p className="max-w-lg text-white/90">{current.subtitle}</p>}
           {current.ctaLabel && current.ctaHref && (

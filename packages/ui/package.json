@@ -6,6 +6,7 @@
     "**/*.css"
   ],
   "exports": {
+    "./editorial.css": "./src/styles/editorial.css",
     "./globals.css": "./src/styles/globals.css",
     "./lib/*": "./src/lib/*.ts",
     "./components/*": "./src/components/*.tsx",

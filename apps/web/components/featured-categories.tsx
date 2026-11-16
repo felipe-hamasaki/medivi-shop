@@ -1,52 +1,53 @@
-import { LocalizedText } from "@/components/localized-text";
-import Image from "next/image";
 import Link from "next/link";
-
+import {
+  Flag,
+  FlaskRound,
+  Gem,
+  Layers,
+  Shield,
+  Shirt,
+  Swords,
+  VenetianMask,
+} from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import type { CategoryNavNode } from "@medivi/db/queries";
+import { LocalizedText } from "./localized-text";
+import { getLocale } from "@/lib/i18n";
 
-const CATEGORY_IMAGES: Record<string, string> = {
-  armor: "/categories/armor.png",
-  banners: "/categories/banners.png",
-  cloaks: "/categories/cloaks.png",
-  potions: "/categories/potions.png",
-  relics: "/categories/relics.png",
-  shields: "/categories/shields.png",
-  swords: "/categories/swords.png",
+const icons: Record<string, LucideIcon | undefined> = {
+  armor: VenetianMask,
+  banners: Flag,
+  cloaks: Shirt,
+  potions: FlaskRound,
+  relics: Gem,
+  shields: Shield,
+  swords: Swords,
 };
 
-export function FeaturedCategories({ categories }: { categories: CategoryNavNode[] }) {
-  if (categories.length === 0) return null;
-
+export async function FeaturedCategories({
+  categories,
+}: {
+  categories: CategoryNavNode[];
+}) {
+  if (!categories.length) return null;
+  const locale = await getLocale();
   return (
-    <section aria-labelledby="featured-categories-heading">
-      <h2 id="featured-categories-heading" className="font-display mb-4 text-2xl">
-        <LocalizedText text={"Shop by category "} /></h2>
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-6">
+    <nav
+      className="store-collections"
+      id="collections"
+      aria-label={locale === "pt-BR" ? "Coleções" : "Collections"}
+    >
+      <div className="armory-shell">
         {categories.map((category) => {
-          const imageUrl = category.imageUrl ?? CATEGORY_IMAGES[category.slug];
-
+          const Icon = icons[category.slug] ?? Layers;
           return (
-            <Link
-              key={category.id}
-              href={`/catalog/${category.slug}`}
-              className="store-category group flex flex-col items-center gap-2 text-center"
-            >
-              <div className="store-category-image relative aspect-square w-full overflow-hidden rounded-full bg-muted ring-1 ring-foreground/10">
-                {imageUrl && (
-                  <Image
-                    src={imageUrl}
-                    alt=""
-                    fill
-                    sizes="(min-width: 768px) 15vw, 30vw"
-                    className="object-cover"
-                  />
-                )}
-              </div>
-              <span className="text-sm font-medium"><LocalizedText text={category.name} /></span>
+            <Link key={category.id} href={`/catalog/${category.slug}`}>
+              <Icon size={20} strokeWidth={1.5} aria-hidden="true" />
+              <LocalizedText text={category.name} />
             </Link>
           );
         })}
       </div>
-    </section>
+    </nav>
   );
 }

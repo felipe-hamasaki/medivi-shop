@@ -86,8 +86,7 @@ export function ProductImageMagnifier({
             backgroundPosition: `${lens.x}px ${lens.y}px`,
             backgroundSize: `${lens.width}px ${lens.height}px`,
             backgroundRepeat: "no-repeat",
-            filter:
-              "sepia(.4) saturate(1.3) hue-rotate(-12deg) contrast(1.07) brightness(.93)",
+
           }}
         />
       )}

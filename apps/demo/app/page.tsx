@@ -1,140 +1,86 @@
 "use client";
+
 import Link from "next/link";
-import {
-  artifactRecords,
-  departments,
-  products,
-  rarityLabels,
-} from "@/lib/catalog";
+import Image from "next/image";
+import { CollectionHero } from "@medivi/ui/components/collection-hero";
+import { ArrowRight } from "lucide-react";
 import { ProductCard } from "@/components/product-card";
-import { DemoNotice } from "@/components/site-header";
-import { Mark, ProductFrame, SectionHeading } from "@/components/armory";
+import { CollectionLinks } from "@/components/collection-links";
 import { useI18n } from "@/components/locale-provider";
 import { useDemo } from "@/components/demo-provider";
+import { visibleProducts } from "@/lib/store";
+
+const selection = [
+  "silver-rapier",
+  "steel-great-helm",
+  "amulet-of-warding",
+  "greater-healing-potion",
+];
+
 export default function Home() {
-  const { copy, language, formatMoney } = useI18n();
+  const { language } = useI18n();
   const { state } = useDemo();
-  const ordered = artifactRecords.flatMap((record) => {
-    const product = products.find((item) => item.slug === record.slug);
-    return product && !state.hiddenProducts.includes(product.slug)
-      ? [product]
-      : [];
-  });
-  const hero = ordered[0];
-  const heroRecord = artifactRecords.find(
-    (record) => record.slug === hero?.slug,
-  );
+  const pt = language === "pt";
+  const available = visibleProducts(state);
+  const featured = [
+    ...selection.flatMap((slug) =>
+      available.filter((item) => item.slug === slug),
+    ),
+    ...available.filter((item) => !selection.includes(item.slug)),
+  ].slice(0, 4);
   return (
     <>
-      <section className="hero">
-        <div className="armory-shell hero-grid">
-          <div className="hero-copy">
-            <h1>Medivi</h1>
-            <div className="hero-house">
-              <Mark name="anvil" />
-              {copy.house}
-            </div>
-            <p className="hero-statement">
-              {copy.heroLine1}
-              <br />
-              <em>{copy.heroLine2}</em>
-            </p>
-            <div className="action-row">
-              <Link className="forged" href="/catalog">
-                {copy.enterArmory}
-              </Link>
-              <Link className="text-action" href="/catalog">
-                {copy.seeTheWares} <span aria-hidden="true">→</span>
-              </Link>
-            </div>
-            <div className="credentials">
-              <span>
-                <Mark name="seal" size={16} />
-                {copy.guildLine}
-              </span>
-              <span>{copy.estLine}</span>
-              <span>{copy.placeLine}</span>
-            </div>
-          </div>
-          {hero && (
-            <div className="hero-frame-wrap">
-              <div className="hero-frame-reveal" data-reveal="mask">
-                <ProductFrame
-                  src={hero.image}
-                  alt={heroRecord?.[language].name ?? hero.name}
-                  variant="hero"
-                  priority
-                />
-              </div>
-              <Link href={`/product/${hero.slug}`} className="price-tag">
-                <strong>{heroRecord?.[language].name ?? hero.name}</strong>
-                <p>
-                  {heroRecord && rarityLabels[language][heroRecord.rar]} ·{" "}
-                  {formatMoney(hero.priceCents)}
-                </p>
-              </Link>
-            </div>
-          )}
-        </div>
-      </section>
-      <section className="merchant-band">
-        <div className="armory-shell merchant-grid">
-          {copy.merchantWord.map((word, index) => (
-            <article key={word.title}>
-              <Mark name={["seal", "anvil", "scroll"][index]!} size={26} />
-              <div>
-                <h3>{word.title}</h3>
-                <p>{word.text}</p>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
-      <section id="departments" className="armory-shell departments">
-        <div className="department-heading">
+      <CollectionHero
+        portuguese={pt}
+        image={
+          <Image
+            src="/editorial/armour-hero.webp"
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+          />
+        }
+        action={
+          <Link className="forged hero-cta" href="/catalog">
+            {pt ? "Explorar catálogo" : "Explore the catalogue"}
+            <ArrowRight size={17} />
+          </Link>
+        }
+      />
+      <CollectionLinks />
+      <section
+        className="armory-shell featured-section"
+        aria-labelledby="featured-title"
+      >
+        <div className="section-head">
           <div>
-            <p className="eyebrow">{copy.departmentsEyebrow}</p>
-            <h2>{copy.departmentsHead}</h2>
+            <p className="section-kicker">
+              <span aria-hidden="true">✦</span>
+              {pt ? "Curadoria da casa" : "House curation"}
+            </p>
+            <h2 id="featured-title">
+              {pt ? "Seleção do mercador" : "The merchant’s selection"}
+            </h2>
           </div>
-          <p>{copy.departmentsNote}</p>
+          <Link className="section-link" href="/catalog">
+            {pt ? "Ver todas as peças" : "View all pieces"}
+            <ArrowRight size={16} />
+          </Link>
         </div>
-        <div className="department-grid">
-          {departments.map((dept) => (
-            <Link
-              className="department-card"
-              href={`/catalog?department=${dept.slug}`}
-              key={dept.slug}
-              data-reveal="up"
-            >
-              <Mark name={dept.mark} tone="bone" size={34} />
-              <div>
-                <h3>{dept[language].name}</h3>
-                <p>{dept[language].description}</p>
-                <span className="caption">
-                  {
-                    ordered.filter(
-                      (p) =>
-                        artifactRecords.find((r) => r.slug === p.slug)?.dept ===
-                        dept.slug,
-                    ).length
-                  }{" "}
-                  {copy.wares}
-                </span>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </section>
-      <section className="armory-shell floor-section">
-        <SectionHeading>{copy.floorHead}</SectionHeading>
-        <div className="wares-grid">
-          {ordered.slice(0, 5).map((product) => (
-            <ProductCard product={product} key={product.slug} />
-          ))}
-        </div>
-      </section>
-      <section className="armory-shell notice-section">
-        <DemoNotice />
+        {featured.length ? (
+          <div className="wares-grid">
+            {featured.map((product) => (
+              <ProductCard product={product} key={product.slug} />
+            ))}
+          </div>
+        ) : (
+          <p>
+            {pt
+              ? "Nenhuma peça disponível no momento."
+              : "No pieces available at the moment."}
+          </p>
+        )}
       </section>
     </>
   );

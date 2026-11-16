@@ -1,0 +1,36 @@
+.armory-shell { width: min(100%, 1536px); margin-inline: auto; padding-inline: clamp(24px, 6vw, 96px); }
+.wordmark { display: inline-flex; align-items: center; gap: 11px; width: max-content; color: #eee9dd; }
+.wordmark svg { width: 28px; height: 37px; color: var(--gold); }
+.wordmark span { font: 600 30px/1 var(--serif); letter-spacing: .12em; text-transform: uppercase; }
+.editorial-hero { position: relative; isolation: isolate; overflow: hidden; background: #11120d; }
+.editorial-hero > img { z-index: -2; object-fit: cover; object-position: center 40%; }
+.hero-content { min-height: clamp(460px, 34.8vw, 560px); padding-block: 40px; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; }
+.hero-kicker { font: 600 10px/1.5 var(--sans); text-transform: uppercase; letter-spacing: .17em; color: var(--gold); }
+.hero-kicker { display: inline-flex; align-items: center; gap: 13px; margin-bottom: 17px; }
+.hero-kicker span { display: block; position: relative; width: 32px; height: 1px; background: var(--gold); }
+.hero-kicker span::after { content: ""; position: absolute; width: 5px; height: 5px; right: 0; top: -2px; background: var(--gold); transform: rotate(45deg); }
+.hero-content h1 { color: #f2eee2; font-size: clamp(72px, 6.65vw, 109px); font-weight: 500; line-height: .88; letter-spacing: -.038em; }
+.hero-content h1 em { display: block; color: #d9b982; font-weight: 400; }
+.hero-content > p { max-width: 350px; margin: 21px 0 26px; color: #d0cec2; font-size: 14px; line-height: 1.7; }
+.forged { display: inline-flex; justify-content: center; align-items: center; gap: 14px; min-height: 46px; padding: 12px 21px; border: 1px solid transparent; border-radius: 2px; background: var(--primary); color: var(--primary-foreground); font: 600 13px/1.4 var(--sans); transition: background .2s; text-align: center; }
+.forged:hover { background: #eed3a4; color: #171612; }
+.hero-cta { gap: 24px; }
+
+@media (max-width: 900px) {
+  .armory-shell { padding-inline: 28px; }
+  .hero-content { min-height: 435px; }
+  .hero-content h1 { font-size: 77px; }
+}
+
+@media (max-width: 700px) {
+  .armory-shell { padding-inline: 20px; }
+  .wordmark { gap: 8px; }
+  .wordmark span { font-size: 24px; }
+  .wordmark svg { width: 23px; height: 32px; }
+  .editorial-hero > img { object-position: 68% 10%; }
+  .editorial-hero::after { content: ""; position: absolute; z-index: -1; inset: 0; background: linear-gradient(90deg,#0b0c09ba 0%,#0d0e0a55 58%,transparent), linear-gradient(0deg,#10110de0,transparent 70%); }
+  .hero-content { min-height: 433px; justify-content: flex-end; padding-block: 38px; }
+  .hero-content h1 { font-size: clamp(63px,11vw,79px); }
+  .hero-kicker { font-size: 9px; margin-bottom: 16px; }
+  .hero-content > p { font-size: 13px; max-width: 280px; margin: 17px 0 21px; }
+}

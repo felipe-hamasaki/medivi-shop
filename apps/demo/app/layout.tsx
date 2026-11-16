@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Grenze_Gotisch, Grenze, Gentium_Book_Plus } from "next/font/google";
+import localFont from "next/font/local";
 import { ThemeProvider } from "@medivi/ui/components/theme-provider";
 import { Toaster } from "@medivi/ui/components/ui/sonner";
 import { DemoProvider } from "@/components/demo-provider";
@@ -9,45 +9,46 @@ import { LocaleProvider } from "@/components/locale-provider";
 import { siteUrl } from "@/lib/site";
 import "./globals.css";
 
-const bodyFont = Gentium_Book_Plus({
-  variable: "--font-armory-body",
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  style: ["normal", "italic"],
+const display = localFont({
+  variable: "--font-display-face",
+  src: [
+    {
+      path: "../../../packages/ui/src/fonts/cormorant-garamond-latin-wght-normal.woff2",
+      weight: "300 700",
+      style: "normal",
+    },
+    {
+      path: "../../../packages/ui/src/fonts/cormorant-garamond-latin-wght-italic.woff2",
+      weight: "300 700",
+      style: "italic",
+    },
+  ],
 });
-const uiFont = Grenze({
-  variable: "--font-armory-ui",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-  style: ["normal", "italic"],
-});
-const displayFont = Grenze_Gotisch({
-  variable: "--font-armory-display",
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
+const sans = localFont({
+  variable: "--font-interface",
+  src: "../../../packages/ui/src/fonts/dm-sans-latin-wght-normal.woff2",
+  weight: "100 1000",
 });
 
+const title = "Medivi · Acervo medieval";
 const description =
-  "Explore a fantasy storefront with a browser-only cart, simulated checkout, and interactive admin demo.";
+  "Explore a coleção de armaduras, lâminas e relíquias da Medivi, uma loja de fantasia com checkout simulado.";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: {
-    default: "Medivi Shop · Interactive portfolio demo",
-    template: "%s · Medivi Shop",
-  },
+  title: { default: title, template: "%s · Medivi" },
   description,
   openGraph: {
     type: "website",
-    siteName: "Medivi Shop",
-    title: "Medivi Shop · Interactive portfolio demo",
+    siteName: "Medivi",
+    title,
     description,
-    images: ["/products/dragonbone-greatsword.webp"],
+    images: ["/editorial/armour-hero.webp"],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Medivi Shop · Interactive portfolio demo",
+    title,
     description,
-    images: ["/products/dragonbone-greatsword.webp"],
+    images: ["/editorial/armour-hero.webp"],
   },
 };
 
@@ -56,10 +57,10 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html
-      lang="en"
+      lang="pt-BR"
       suppressHydrationWarning
       data-scroll-behavior="smooth"
-      className={`${bodyFont.variable} ${uiFont.variable} ${displayFont.variable}`}
+      className={`dark ${display.variable} ${sans.variable}`}
     >
       <body className="flex min-h-screen flex-col">
         <ThemeProvider
@@ -67,7 +68,7 @@ export default function RootLayout({
           forcedTheme="dark"
           enableSystem={false}
         >
-          <LocaleProvider locale="en">
+          <LocaleProvider locale="pt-BR">
             <DemoProvider>
               <SiteHeader />
               <main id="main-content" tabIndex={-1} className="flex-1">

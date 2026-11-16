@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Cinzel, Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import { ThemeProvider } from "@medivi/ui/components/theme-provider";
 import { Toaster } from "@medivi/ui/components/ui/sonner";
 import { SiteHeader } from "@/components/site-header";
@@ -11,19 +11,25 @@ import { getLocale } from "@/lib/i18n";
 import { LocaleProvider } from "@/components/locale-provider";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const display = localFont({
+  variable: "--font-display-face",
+  src: [
+    {
+      path: "../../../packages/ui/src/fonts/cormorant-garamond-latin-wght-normal.woff2",
+      weight: "300 700",
+      style: "normal",
+    },
+    {
+      path: "../../../packages/ui/src/fonts/cormorant-garamond-latin-wght-italic.woff2",
+      weight: "300 700",
+      style: "italic",
+    },
+  ],
 });
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-const cinzel = Cinzel({
-  variable: "--font-cinzel",
-  subsets: ["latin"],
+const sans = localFont({
+  variable: "--font-interface",
+  src: "../../../packages/ui/src/fonts/dm-sans-latin-wght-normal.woff2",
+  weight: "100 1000",
 });
 
 export const metadata: Metadata = {
@@ -42,7 +48,7 @@ export default async function RootLayout({
     <html
       lang={locale}
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} ${cinzel.variable} h-full antialiased`}
+      className={`dark ${display.variable} ${sans.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <JsonLd
@@ -55,13 +61,13 @@ export default async function RootLayout({
         />
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="dark"
           enableSystem
           disableTransitionOnChange
         >
           <LocaleProvider locale={locale}>
             <SiteHeader />
-            <main className="flex flex-1 flex-col">{children}</main>
+            <main id="main-content" tabIndex={-1} className="flex flex-1 flex-col">{children}</main>
             <SiteFooter />
           </LocaleProvider>
           <Toaster />
